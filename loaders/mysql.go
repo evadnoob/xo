@@ -88,10 +88,10 @@ switchDT:
 		if precision == 1 {
 			nilVal = "false"
 			typ = "types.BitBool"
-			if nullable {
-				nilVal = "sql.NullBool{}"
-				typ = "sql.NullBool"
-			}
+			// if nullable {
+			// 	nilVal = "sql.NullBool{}"
+			// 	typ = "sql.NullBool"
+			// }
 			break switchDT
 		} else if precision <= 8 {
 			typ = "uint8"
