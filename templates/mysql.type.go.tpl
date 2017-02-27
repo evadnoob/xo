@@ -22,6 +22,11 @@ func ({{ $short }} *{{ .Name }}) Exists() bool {
 	return {{ $short }}._exists
 }
 
+func ({{ $short }} *{{ .Name }}) GetId() string {
+     _a := fmt.Sprintf("%d", {{ $short }}.{{ .PrimaryKey.Name }} )
+     return _a
+}
+
 // Deleted provides information if the {{ .Name }} has been deleted from the database.
 func ({{ $short }} *{{ .Name }}) Deleted() bool {
 	return {{ $short }}._deleted
