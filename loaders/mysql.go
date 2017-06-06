@@ -92,7 +92,6 @@ switchDT:
 		if precision == 1 {
 			nilVal = "false"
 			typ = "types.BitBool"
-			//typ = "sql.NullBool"
 			if nullable {
 				nilVal = "nulltypes.NullBitBool{}"
 				typ = "nulltypes.NullBitBool"
