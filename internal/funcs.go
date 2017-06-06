@@ -181,7 +181,7 @@ func (a *ArgType) colnames(fields []*Field, ignoreNames ...string) string {
 		if i != 0 {
 			str = str + ", "
 		}
-		str = str + a.colname(f.Col)
+		str = str + escapeSqlKeyWords(a.colname(f.Col))
 		i++
 	}
 
@@ -210,7 +210,7 @@ func (a *ArgType) colnamesquery(fields []*Field, sep string, ignoreNames ...stri
 		if i != 0 {
 			str = str + sep
 		}
-		str = str + a.colname(f.Col) + " = " + a.Loader.NthParam(i)
+		str = str + escapeSqlKeyWords(a.colname(f.Col)) + " = " + a.Loader.NthParam(i)
 		i++
 	}
 
@@ -238,7 +238,7 @@ func (a *ArgType) colprefixnames(fields []*Field, prefix string, ignoreNames ...
 		if i != 0 {
 			str = str + ", "
 		}
-		str = str + prefix + "." + a.colname(f.Col)
+		str = str + prefix + "." + escapeSqlKeyWords(a.colname(f.Col))
 		i++
 	}
 
@@ -510,4 +510,14 @@ func (a *ArgType) hasfield(fields []*Field, name string) bool {
 	}
 
 	return false
+}
+
+// escapeSqlKeyWords escapes sql keywords, right now it just escapes key
+// for an exhustive list: https://dev.mysql.com/doc/refman/5.7/en/keywords.html
+// it should not be difficult to extend it if needed.
+func escapeSqlKeyWords(col string) string {
+	if col == "key" {
+		return "`+\"`\"+`" + col + "`+\"`\"+`"
+	}
+	return col
 }

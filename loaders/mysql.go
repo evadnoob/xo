@@ -1,6 +1,8 @@
 package loaders
 
 import (
+	"fmt"
+	"os"
 	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -81,6 +83,8 @@ func MyParseType(args *internal.ArgType, dt string, nullable bool) (int, string,
 
 	var typ string
 
+	fmt.Fprintln(os.Stdout, "dt: ", dt, " nullable: ", nullable)
+
 switchDT:
 	switch dt {
 	case "bit":
@@ -88,10 +92,10 @@ switchDT:
 		if precision == 1 {
 			nilVal = "false"
 			typ = "types.BitBool"
-			// if nullable {
-			// 	nilVal = "sql.NullBool{}"
-			// 	typ = "sql.NullBool"
-			// }
+			if nullable {
+				nilVal = "nulltypes.NullBitBool{}"
+				typ = "nulltypes.NullBitBool"
+			}
 			break switchDT
 		} else if precision <= 8 {
 			typ = "uint8"
